@@ -8,6 +8,7 @@ Created on Tue Sep  5 20:13:53 2017
 """
 import sys
 import re
+import os
 
 if __name__ == "__main__":
     for file_name in sys.argv:
@@ -15,13 +16,29 @@ if __name__ == "__main__":
             convertName(file_name)
         elif re.match(file_name, "\.data"):
             convertData(file_name)
+        else:
+            print("does this file contain data(y/n)")
+            if n:
+                convertName(file_name)
+            else:
+                convertData(file_name)
             
 def convertName (file_name):
     with open(file_name, "r") as file:
+        boolboi = True
+        attributes = []
         for line in file:
-            if re.match(line, '7. Attribute Information:'):
-                getAttributes()
-                
+            if re.match(line, "7. Attribute Information:"):
+                boolboi = True
+            if boobboi:
+                attributes.append(line)
+            if re.match(line, "8."):
+                getAttributes(attributes, file)
+                boolboi = False
+
+def getAttributes(att, file):
+    os.startfile(file)
+              
 def convertData (file_name):
     with open(file_name, "r") as file:
         for line in file:
