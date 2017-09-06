@@ -18,7 +18,7 @@ if __name__ == "__main__":
             convertData(file_name)
         else:
             print("does this file contain data(y/n)")
-            if n:
+            if re.match(input(), "n"):
                 convertName(file_name)
             else:
                 convertData(file_name)
