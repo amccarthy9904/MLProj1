@@ -10,6 +10,8 @@ import sys
 import re
 import os
 
+# Prompts the user for the attributes and associated data types
+# Returns a list of 2-tuples, each corresonding to an attribute name and datatype pair
 def getAttributes(classes):
 	global dataFile
 	# grab the first datapoint from dataFile
@@ -21,15 +23,20 @@ def getAttributes(classes):
 	# Return a list of 2-tuples
 	return [("attributeName1", "NUMERIC"), ("attributeName2", "{ Nominal1, Nominal2 }")]
 
-# Prompts the user for the data classes and returns a list of the class names
+# Prompts the user for the data classes
+# Returns a list of the class names
 def getClasses():
 	print("Please enter the class names separated by a comma:")
 	classes = input()
 	classes = classes.split(',')
 	classes = [c.strip() for c in classes]
 	return classes
-	
-def createARFF(classes, attributes, data):
+
+# Given the classes and attributes (with datatypes)
+# Create and format an .arff file in the current directory
+def createARFF(classes, attributes):
+	global dataFile
+	#with open(dataFile, "r") as file:
 	return
 
 # Entry point of the program
