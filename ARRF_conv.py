@@ -10,19 +10,8 @@ import sys
 import re
 import os
 
-if __name__ == "__main__":
-    for file_name in sys.argv:
-        if re.search(file_name, "\.name"): 
-            convertName(file_name)
-        elif re.match(file_name, "\.data"):
-            convertData(file_name)
-        else:
-            print("does this file contain data(y/n)")
-            if re.match(input(), "n"):
-                convertName(file_name)
-            else:
-                convertData(file_name)
-            
+# Converts the metadata file into ARFF format
+# Attempts to retrieve attribute information from metadata
 def convertName (file_name):
     with open(file_name, "r") as file:
         boolboi = True
@@ -38,10 +27,27 @@ def convertName (file_name):
 
 def getAttributes(att, file):
     os.startfile(file)
-              
+
+# Converts a data file into the ARFF format
 def convertData (file_name):
     with open(file_name, "r") as file:
         for line in file:
              one_line_data = re.split(line, ',,')
-                
-    
+
+# Entry point of the program
+# Calls conversion methods on associated files			 
+if __name__ == "__main__":
+	files = sys.argv
+	files.remove(sys.argv[0])
+	for file_name in files:
+		if re.search(file_name, "\.name"):
+			convertName(file_name)
+		elif re.match(file_name, "\.data"):
+			convertData(file_name)
+		else:
+			print("does this file contain data(y/n)")
+			if re.match(input(), "n"):
+				convertName(file_name)
+			else:
+				convertData(file_name)
+              
