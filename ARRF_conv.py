@@ -10,44 +10,36 @@ import sys
 import re
 import os
 
-# Converts the metadata file into ARFF format
-# Attempts to retrieve attribute information from metadata
-def convertName (file_name):
-    with open(file_name, "r") as file:
-        boolboi = True
-        attributes = []
-        for line in file:
-            if re.match(line, "7. Attribute Information:"):
-                boolboi = True
-            if boobboi:
-                attributes.append(line)
-            if re.match(line, "8."):
-                getAttributes(attributes, file)
-                boolboi = False
+def getAttributes(classes):
+	global dataFile
+	# grab the first datapoint from dataFile
+	# remove the class name from the list of values
+	# The sample point should print this >> ClassName: datavalue1 datavalue2 ...
+	
+	#with open(dataFile, "r") as file:
+	
+	# Return a list of 2-tuples
+	return [("attributeName1", "NUMERIC"), ("attributeName2", "{ Nominal1, Nominal2 }")]
 
-def getAttributes(att, file):
-    os.startfile(file)
-
-# Converts a data file into the ARFF format
-def convertData (file_name):
-    with open(file_name, "r") as file:
-        for line in file:
-             one_line_data = re.split(line, ',,')
+# Prompts the user for the data classes and returns a list of the class names
+def getClasses():
+	print("Please enter the class names separated by a comma:")
+	classes = input()
+	classes = classes.split(',')
+	classes = [c.strip() for c in classes]
+	return classes
+	
+def createARFF(classes, attributes, data):
+	return
 
 # Entry point of the program
-# Calls conversion methods on associated files			 
+# Calls methods to collect classes and attributes, then sends that information to createARFF 		 
 if __name__ == "__main__":
-	files = sys.argv
-	files.remove(sys.argv[0])
-	for file_name in files:
-		if re.search(file_name, "\.name"):
-			convertName(file_name)
-		elif re.match(file_name, "\.data"):
-			convertData(file_name)
-		else:
-			print("does this file contain data(y/n)")
-			if re.match(input(), "n"):
-				convertName(file_name)
-			else:
-				convertData(file_name)
-              
+	global dataFile
+	if len(sys.argv) > 1:
+		dataFile = sys.argv[1]
+		classes = getClasses()
+		attributes = getAttributes(classes)
+	else:
+		print ("Error: must enter a valid datafile.")
+	
