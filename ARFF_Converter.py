@@ -40,13 +40,13 @@ def createARFF(classes, attributes):
 	return
 
 # Entry point of the program
-# Calls methods to collect classes and attributes, then sends that information to createARFF 		 
+# Calls methods to collect classes and attributes, then sends that information to createARFF
 if __name__ == "__main__":
 	global dataFile
-	if len(sys.argv) > 1:
+	if len(sys.argv) == 1:
 		dataFile = sys.argv[1]
 		classes = getClasses()
 		attributes = getAttributes(classes)
 	else:
-		print ("Error: must enter a valid datafile.")
+		print ("Error: must enter a single valid datafile to convert.")
 	
