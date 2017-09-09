@@ -27,7 +27,7 @@ def getAttributes(classes):
 # Prompts the user for the data classes
 # Returns a list of the class names
 def getClasses():
-	print("Please enter the class names separated by a comma:")
+	print("Please enter the class names separated by commas:")
 	classes = input()
 	classes = classes.split(',')
 	classes = [c.strip() for c in classes]
@@ -39,17 +39,25 @@ def getClasses():
 def createARFF(classes, attributes):
 	global dataFile
 	#with open(dataFile, "r") as file:
-	return
+		#write @RELATION tag
+		#write @ATTRIBUTE tags in the order the list is in
+		#write final @ATTRIBUTE tag for class
+		#write @DATA tag using a call to formatData(classes, attributes) - returns a string
+		#close the writer
 
 # TODO
-def formatData(classes. attributes):
+# Given the classes and attributes
+# Format the @DATA section and return it as a string
+def formatData(classes, attributes):
+	global dataFile
 	# Maybe switch stmt on file type and convert to ARFF format accordingly
+	return "This will be a string of the data section in ARFF: \n @DATA \n atrbt1, atrbt2,...,class \n"
 	
 # Entry point of the program
 # Calls methods to collect classes and attributes, then sends that information to createARFF
 if __name__ == "__main__":
 	global dataFile
-	if len(sys.argv) == 1:
+	if len(sys.argv) > 1:
 		dataFile = sys.argv[1]
 		classes = getClasses()
 		attributes = getAttributes(classes)
