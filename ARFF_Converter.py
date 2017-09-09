@@ -10,6 +10,7 @@ import sys
 import re
 import os
 
+# TODO
 # Prompts the user for the attributes and associated data types
 # Returns a list of 2-tuples, each corresonding to an attribute name and datatype pair
 def getAttributes(classes):
@@ -32,6 +33,7 @@ def getClasses():
 	classes = [c.strip() for c in classes]
 	return classes
 
+# TODO
 # Given the classes and attributes (with datatypes)
 # Create and format an .arff file in the current directory
 def createARFF(classes, attributes):
@@ -39,6 +41,10 @@ def createARFF(classes, attributes):
 	#with open(dataFile, "r") as file:
 	return
 
+# TODO
+def formatData(classes. attributes):
+	# Maybe switch stmt on file type and convert to ARFF format accordingly
+	
 # Entry point of the program
 # Calls methods to collect classes and attributes, then sends that information to createARFF
 if __name__ == "__main__":
@@ -47,6 +53,7 @@ if __name__ == "__main__":
 		dataFile = sys.argv[1]
 		classes = getClasses()
 		attributes = getAttributes(classes)
+		createARFF(classes, attributes)
 	else:
 		print ("Error: must enter a single valid datafile to convert.")
 	
