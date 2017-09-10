@@ -8,7 +8,6 @@ Created on Tue Sep  5 20:13:53 2017
 """
 import sys
 import re
-import os
 
 # Prompts the user for the attributes and associated data types
 # Returns a list of 2-tuples, each corresonding to an attribute name and datatype pair
@@ -67,7 +66,7 @@ def getClasses():
 # Given the classes and attributes (with datatypes)
 # Create and format an .arff file in the current directory
 def createARFF(classes, attributes):
-	global dataFile, classColumnIndex
+	global k, classColumnIndex
 	#with open(dataFile, "r") as file:
 		#write @RELATION tag
 		#write @ATTRIBUTE tags in the order the list is in
@@ -78,7 +77,7 @@ def createARFF(classes, attributes):
 # TODO
 # Given the classes and attributes
 # Format the @DATA section and return it as a string
-def formatData():
+def formatData(classes, attributes):
     global dataFile, classColumnIndex
     with open(dataFile, 'r') as file:
         if re.match(dataFile, ".txt") or re.match(dataFile, ".data"):
@@ -86,16 +85,19 @@ def formatData():
             for line in file.readlines():
                 data = data + line
         return data
+    # Maybe switch stmt on file type and convert to ARFF format accordingly
+    # Switch statments are not a thing in python
+    #return "This will be a string of the data section in ARFF: \n @DATA \n atrbt1, atrbt2,...,class \n"
 	
 # Entry point of the program
 # Calls methods to collect classes and attributes, then sends that information to createARFF
 if __name__ == "__main__":
-	global dataFile
-	if len(sys.argv) > 1:
-		dataFile = sys.argv[1]
-		classes = getClasses()
-		attributes = getAttributes(classes)
-		createARFF(classes, attributes)
-	else:
-		print ("Error: must enter a single valid datafile to convert.")
+    global dataFile
+    if len(sys.argv) > 1:
+        dataFile = sys.argv[1]
+        classes = getClasses()
+        attributes = getAttributes(classes)
+        createARFF(classes, attributes)
+    else:
+        print ("Error: must enter a single valid datafile to convert.")
 	
