@@ -76,6 +76,7 @@ def createARFF(classes, attributes):
 		#close the writer
 
 # TODO
+###### NOTE: The data needs to be comma-separated with no spaces. So that needs to be checked before returning the data. If it is space-separated, then convert it to commas.
 # Given the classes and attributes
 # Format the @DATA section and return it as a string
 def formatData():
