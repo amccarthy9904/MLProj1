@@ -14,7 +14,7 @@ import os
 # Returns a list of 2-tuples, each corresonding to an attribute name and datatype pair
 def getAttributes(classes):
 	global dataFile, classColumnIndex
-	# Iris-Setosa, Iris-Versicolour, Iris-Virginica 
+	# Iris-setosa, Iris-versicolour, Iris-virginica 
 	# sepal length:NUMERIC, sepal width:NUMERIC, petal length:NUMERIC, petal width:NUMERIC
 	
 	with open(dataFile, 'r') as file:
@@ -28,7 +28,7 @@ def getAttributes(classes):
 			sampleDataPoint = firstLine.split(',')
 		else:
 			sampleDataPoint = re.split('\s+', firstLine)
-		sampleDataPoint = [attr.strip().lower() for attr in sampleDataPoint]
+		sampleDataPoint = [attr.strip() for attr in sampleDataPoint]
 		
 		# Finds the column in which the class is defined
 		# Order of checking: last index, index 0, then index 1
@@ -60,43 +60,38 @@ def getClasses():
 	print("Please enter the class names separated by commas:")
 	classes = input()
 	classes = classes.split(',')
-	classes = [c.strip().lower() for c in classes]
+	classes = [c.strip() for c in classes]
 	return classes
 
-# TODO
 # Given the classes and attributes (with datatypes)
 # Create and format an .arff file in the current directory
 def createARFF(classes, attributes):
 	global dataFile, classColumnIndex
 	
-	# the string that will be written to the ARFF file
+	fileName = re.search('(\w)+\..', dataFile).group(0).split('.')[0]
 	outputString = ""
 	
-	# open the datafile and create the ARFF string
 	with open(dataFile, "r") as file:
-		# get the name of the dataset
-		fileName = re.search('(\w)+\..', dataFile).group(0).split('.')[0]
-		
-		#write @RELATION tag
 		outputString += "@RELATION " + fileName + "\n"
-		
-		#write @ATTRIBUTE tags in the order the list is in
 		for  attr in attributes:
 			outputString += "\n@ATTRIBUTE " + attr[0].replace(' ', '') + ' ' + attr[1]
-			
-		#write final @ATTRIBUTE tag for class
+		
 		outputString += "\n@ATTRIBUTE class {"
 		for c in classes:
-			outputString += c + ','
-		outputString += "}\n"
+			outputString += c
+			if c.index is not len(classes)-1:
+				outputString += ','
 		
-		#write @DATA tag using a call to formatData(classes, attributes) - returns a string
+		outputString += "}\n"
 		outputString += formatData() + "\n%\n%\n%\n"
 		
-		
+	#create the ARFF file
+	arffFile = fileName + ".arff"
+	with open(arffFile, "w") as newFile:
+		newFile.write(outputString)
 	
-	print("\n\nOUTPUT")
-	print (outputString)
+	# print("\n\nOUTPUT")
+	# print (outputString)
 
 # TODO
 ###### NOTE: The data needs to be comma-separated with no spaces. So that needs to be checked before returning the data. If it is space-separated, then convert it to commas.
