@@ -24,7 +24,7 @@ def getAttributes(classes):
 		sampleDataPoint = []
 		
 		# split data on commas or spaces
-		if (re.search(',', firstLine)):
+		if re.search(',', firstLine):
 			sampleDataPoint = firstLine.split(',')
 		else:
 			sampleDataPoint = re.split('\s+', firstLine)
@@ -67,6 +67,7 @@ def getClasses():
 # Given the classes and attributes (with datatypes)
 # Create and format an .arff file in the current directory
 def createARFF(classes, attributes):
+<<<<<<< Updated upstream
 	global dataFile, classColumnIndex
 	#with open(dataFile, "r") as file:
 		#write @RELATION tag
@@ -74,11 +75,36 @@ def createARFF(classes, attributes):
 		#write final @ATTRIBUTE tag for class
 		#write @DATA tag using a call to formatData(classes, attributes) - returns a string
 		#close the writer
+=======
+	global dataFile
+	fileName = re.search('(\w)+\..', dataFile).group(0).split('.')[0]
+	outputString = ""
+	
+	# write @RELATION, @ATTRIBUTE, and @DATA tags specified by ARFF format
+	with open(dataFile, "r") as file:
+		outputString += "@RELATION " + fileName + "\n"
+		for  attr in attributes:
+			outputString += "\n@ATTRIBUTE " + attr[0].replace(' ', '') + ' ' + attr[1].replace(' ','').replace('&',',')
+		
+		outputString += "\n@ATTRIBUTE class {"
+		for c in classes:
+			outputString += c
+			if classes.index(c) is not len(classes)-1:
+				outputString += ','
+		
+		outputString += "}\n"
+		outputString += formatData(len(attributes))
+		
+	#create the ARFF file and write ouputString into the file
+	arffFile = fileName + ".arff"
+	with open(arffFile, "w") as newFile:
+		newFile.write(outputString)
+>>>>>>> Stashed changes
 
 # TODO
-###### NOTE: The data needs to be comma-separated with no spaces. So that needs to be checked before returning the data. If it is space-separated, then convert it to commas.
-# Given the classes and attributes
+# Given the number of attributes
 # Format the @DATA section and return it as a string
+<<<<<<< Updated upstream
 def formatData():
     global dataFile, classColumnIndex
     with open(dataFile, 'r') as file:
@@ -90,6 +116,36 @@ def formatData():
                 data = data + line
         return data
 	
+=======
+def formatData(numAttributes):
+	global dataFile
+	with open(dataFile, 'r') as file:
+
+		#check for correct file extension
+		# continue with warning if file extension wrong
+		if not re.search("\.txt|\.data|\.csv", dataFile):
+			print("File format not supported\nFile must be .txt, .data, or .csv")
+			print("Data transfer continuing...\nResults may be unreliable")
+
+		#make header
+		data = "\n@DATA\n"
+		lines = file.readlines()
+
+		# check if the file is space delimited with range to account for class names with spaces
+		# replace spaces with commas
+		if len(re.split(" ", lines[0])) in range(numAttributes, numAttributes + 4):
+			for i in range(0, len(lines)):
+				# replace numAttributes number of spaces with commas on every line
+				lines[i] = re.sub(" ", ",", lines[i], numAttributes)
+
+		for line in lines:
+			data = data + line
+		data = data + "\n%\n%\n%\n"
+		return data
+
+
+
+>>>>>>> Stashed changes
 # Entry point of the program
 # Calls methods to collect classes and attributes, then sends that information to createARFF
 if __name__ == "__main__":
