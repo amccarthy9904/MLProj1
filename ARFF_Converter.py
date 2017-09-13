@@ -68,25 +68,49 @@ def getClasses():
 # Create and format an .arff file in the current directory
 def createARFF(classes, attributes):
 	global dataFile, classColumnIndex
-	#with open(dataFile, "r") as file:
+	
+	# the string that will be written to the ARFF file
+	outputString = ""
+	
+	# open the datafile and create the ARFF string
+	with open(dataFile, "r") as file:
+		# get the name of the dataset
+		fileName = re.search('(\w)+\..', dataFile).group(0).split('.')[0]
+		
 		#write @RELATION tag
+		outputString += "@RELATION " + fileName + "\n"
+		
 		#write @ATTRIBUTE tags in the order the list is in
+		for  attr in attributes:
+			outputString += "\n@ATTRIBUTE " + attr[0].replace(' ', '') + ' ' + attr[1]
+			
 		#write final @ATTRIBUTE tag for class
+		outputString += "\n@ATTRIBUTE class {"
+		for c in classes:
+			outputString += c + ','
+		outputString += "}\n"
+		
 		#write @DATA tag using a call to formatData(classes, attributes) - returns a string
-		#close the writer
+		outputString += formatData() + "\n%\n%\n%\n"
+		
+		
+	
+	print("\n\nOUTPUT")
+	print (outputString)
 
 # TODO
 ###### NOTE: The data needs to be comma-separated with no spaces. So that needs to be checked before returning the data. If it is space-separated, then convert it to commas.
 # Given the classes and attributes
 # Format the @DATA section and return it as a string
 def formatData():
-    global dataFile, classColumnIndex
-    with open(dataFile, 'r') as file:
-        if re.match(dataFile, ".txt") or re.match(dataFile, ".data"):
-            data = "\n @DATA \n"
-            for line in file.readlines():
-                data = data + line
-        return data
+	global dataFile
+	with open(dataFile, 'r') as file:
+		data = ""
+		if re.search(".txt", dataFile) or re.search(".data", dataFile):
+			data = "\n@DATA\n"
+			for line in file.readlines():
+				data = data + line
+		return data
 	
 # Entry point of the program
 # Calls methods to collect classes and attributes, then sends that information to createARFF
