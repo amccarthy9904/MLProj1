@@ -83,6 +83,8 @@ def formatData():
     global dataFile, classColumnIndex
     with open(dataFile, 'r') as file:
         if re.match(dataFile, ".txt") or re.match(dataFile, ".data"):
+            if re.match(file.readline(), " "):
+                #get rid of it boi
             data = "\n @DATA \n"
             for line in file.readlines():
                 data = data + line
