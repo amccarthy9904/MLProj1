@@ -14,7 +14,7 @@ import os
 # Returns a list of 2-tuples, each corresonding to an attribute name and datatype pair
 def getAttributes(classes):
 	global dataFile, classColumnIndex
-	# Iris-setosa, Iris-versicolour, Iris-virginica 
+	# Iris-setosa, Iris-versicolor, Iris-virginica 
 	# sepal length:NUMERIC, sepal width:NUMERIC, petal length:NUMERIC, petal width:NUMERIC
 	
 	with open(dataFile, 'r') as file:
@@ -47,7 +47,7 @@ def getAttributes(classes):
 		print("\nThank you.\nBelow is a sample data point.")
 		print("Please enter the attribute names and associated data types in the order they appear in the sample.")
 		print("---------------------------------------------------------------------------------------------------")
-		print("Follow this format:\n\n\t<attributeName1>:<dataType1>, <attributeName2>:<dataType2>, ...etc\n\n<dataType> can be one of NUMERIC, STRING, DATE, or a nominal type.\nFormat nominal types as {nominalValue1, nominalValue2,...,nominalValueN}\n")
+		print("Follow this format:\n\n\t<attributeName1>:<dataType1>, <attributeName2>:<dataType2>, ...etc\n\n<dataType> can be one of NUMERIC, STRING, DATE, or a nominal type.\nFormat nominal types as {nominalValue1 & nominalValue2 &...etc}\n")
 		print("Here is the sample data point of the class", sampleClass + ".")
 		print("Enter the " + str(len(sampleDataPoint)) + " attributes in the order they appear in the sample.")
 		dashCount = len(sampleAttributes) + 4
@@ -56,15 +56,14 @@ def getAttributes(classes):
 		print("\n| " + sampleAttributes + " |")
 		for dash in range(dashCount):
 			print("-", end='')
-		print("\n")
 		
 		# check user input and return the attributes as a list of 2-tuples (attribute name, data type)
-		oneAttrRegex = '([\w -]+:(NUMERIC|STRING|DATE|(\{(([\w-]+)|(([\w -]+,)+[\w -]+))\})))'
+		oneAttrRegex = '([\w -]+:(NUMERIC|STRING|DATE|(\{(([\w-]+)|(([\w -]+&)+[\w -]+))\})))'
 		formatRegex = '(' + oneAttrRegex + '(, )?){' + str(len(sampleDataPoint)) + '}'
 		userInput = ""
 		inputIsValid = False
 		while not inputIsValid:
-			userInput = input()
+			userInput = input('\n> ')
 			userInput = userInput.strip()
 			if len(userInput) is 0:
 				print("Error: You must enter the corresonding attributes.\n")
@@ -73,7 +72,6 @@ def getAttributes(classes):
 			else:
 				inputIsValid = True
 		
-		print([attrTuple.strip().split(':') for attrTuple in userInput.split(',')])
 		return [attrTuple.strip().split(':') for attrTuple in userInput.split(',')]
 		
 
@@ -84,8 +82,8 @@ def getClasses():
 	classes = ""
 	inputIsValid = False
 	while not inputIsValid:
-		print("Please enter the exact and case-sensitive class names from the data separated by commas:")
-		classes = input()
+		print("Please enter the exact class names from the data (case sensitive) separated by commas:")
+		classes = input('> ')
 		classes = classes.strip()
 		if len(classes) is 0:
 			print("Error: You must enter at least 1 class name.\n")
@@ -109,12 +107,12 @@ def createARFF(classes, attributes):
 	with open(dataFile, "r") as file:
 		outputString += "@RELATION " + fileName + "\n"
 		for  attr in attributes:
-			outputString += "\n@ATTRIBUTE " + attr[0].replace(' ', '') + ' ' + attr[1]
+			outputString += "\n@ATTRIBUTE " + attr[0].replace(' ', '') + ' ' + attr[1].replace(' ','').replace('&',',')
 		
 		outputString += "\n@ATTRIBUTE class {"
 		for c in classes:
 			outputString += c
-			if c.index is not len(classes)-1:
+			if classes.index(c) is not len(classes)-1:
 				outputString += ','
 		
 		outputString += "}\n"
