@@ -67,15 +67,6 @@ def getClasses():
 # Given the classes and attributes (with datatypes)
 # Create and format an .arff file in the current directory
 def createARFF(classes, attributes):
-<<<<<<< Updated upstream
-	global dataFile, classColumnIndex
-	#with open(dataFile, "r") as file:
-		#write @RELATION tag
-		#write @ATTRIBUTE tags in the order the list is in
-		#write final @ATTRIBUTE tag for class
-		#write @DATA tag using a call to formatData(classes, attributes) - returns a string
-		#close the writer
-=======
 	global dataFile
 	fileName = re.search('(\w)+\..', dataFile).group(0).split('.')[0]
 	outputString = ""
@@ -99,24 +90,7 @@ def createARFF(classes, attributes):
 	arffFile = fileName + ".arff"
 	with open(arffFile, "w") as newFile:
 		newFile.write(outputString)
->>>>>>> Stashed changes
 
-# TODO
-# Given the number of attributes
-# Format the @DATA section and return it as a string
-<<<<<<< Updated upstream
-def formatData():
-    global dataFile, classColumnIndex
-    with open(dataFile, 'r') as file:
-        if re.match(dataFile, ".txt") or re.match(dataFile, ".data"):
-            if re.match(file.readline(), " "):
-                #get rid of it boi
-            data = "\n @DATA \n"
-            for line in file.readlines():
-                data = data + line
-        return data
-	
-=======
 def formatData(numAttributes):
 	global dataFile
 	with open(dataFile, 'r') as file:
@@ -144,8 +118,6 @@ def formatData(numAttributes):
 		return data
 
 
-
->>>>>>> Stashed changes
 # Entry point of the program
 # Calls methods to collect classes and attributes, then sends that information to createARFF
 if __name__ == "__main__":
