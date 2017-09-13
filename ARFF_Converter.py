@@ -18,7 +18,6 @@ def getAttributes(classes):
 	# sepal length:NUMERIC, sepal width:NUMERIC, petal length:NUMERIC, petal width:NUMERIC
 	
 	with open(dataFile, 'r') as file:
-	
 		# Get the first data point as a list of strings
 		firstLine = file.readline().strip()
 		sampleDataPoint = []
@@ -48,24 +47,52 @@ def getAttributes(classes):
 		print("\nThank you.\nBelow is a sample data point.")
 		print("Please enter the attribute names and associated data types in the order they appear in the sample.")
 		print("---------------------------------------------------------------------------------------------------")
-		print("Follow this format: <attributeName1>:<dataType1>, <attributeName2>:<dataType2>, ...etc\n<dataType> can be one of NUMERIC, STRING, DATE, or a nominal type.\nIf an attribute has a nominal type, format <dataType> as {nominalValue1, nominalValue2,...,nominalValueN}\n")
+		print("Follow this format:\n\n\t<attributeName1>:<dataType1>, <attributeName2>:<dataType2>, ...etc\n\n<dataType> can be one of NUMERIC, STRING, DATE, or a nominal type.\nFormat nominal types as {nominalValue1, nominalValue2,...,nominalValueN}\n")
 		print("Here is the sample data point of the class", sampleClass + ".")
-		print("Enter the attributes in the order they appear in the sample.")
-		print(sampleAttributes)
+		print("Enter the " + str(len(sampleDataPoint)) + " attributes in the order they appear in the sample.")
+		dashCount = len(sampleAttributes) + 4
+		for dash in range(dashCount):
+			print("-", end='')
+		print("\n| " + sampleAttributes + " |")
+		for dash in range(dashCount):
+			print("-", end='')
+		print("\n")
 		
-		# return user input as a list of tuples
-		userInput = input()
+		# check user input and return the attributes as a list of 2-tuples (attribute name, data type)
+		oneAttrRegex = '([\w -]+:(NUMERIC|STRING|DATE|(\{(([\w-]+)|(([\w -]+,)+[\w -]+))\})))'
+		formatRegex = '(' + oneAttrRegex + '(, )?){' + str(len(sampleDataPoint)) + '}'
+		userInput = ""
+		inputIsValid = False
+		while not inputIsValid:
+			userInput = input()
+			userInput = userInput.strip()
+			if len(userInput) is 0:
+				print("Error: You must enter the corresonding attributes.\n")
+			elif not re.match(formatRegex, userInput):
+				print("Error: You must enter the " + str(len(sampleDataPoint)) + " attributes in the specified format.\n")
+			else:
+				inputIsValid = True
+		
+		print([attrTuple.strip().split(':') for attrTuple in userInput.split(',')])
 		return [attrTuple.strip().split(':') for attrTuple in userInput.split(',')]
 		
 
 # Prompts the user for the data classes. Verifies the uses inputs a comma separated list
 # Returns a list of the class names
 def getClasses():
-	print("Please enter the class names (case-sensitive) from the data separated by commas:")
-	classes = input()
-	while len(classes) is 0 or not re.search(',', classes):
-		print("Please enter the class names (case-sensitive) from the data separated by commas:")
+	classRegex = '(^(([\w -])+,)+([\w -])+$)|(^(\w-)+$)'
+	classes = ""
+	inputIsValid = False
+	while not inputIsValid:
+		print("Please enter the exact and case-sensitive class names from the data separated by commas:")
 		classes = input()
+		classes = classes.strip()
+		if len(classes) is 0:
+			print("Error: You must enter at least 1 class name.\n")
+		elif not re.match(classRegex, classes):
+			print("Error: Class names must be separated by commas.\n")
+		else:
+			inputIsValid = True
 		
 	classes = classes.split(',')
 	classes = [c.strip() for c in classes]
