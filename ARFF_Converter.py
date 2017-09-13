@@ -45,8 +45,12 @@ def getAttributes(classes):
 		sampleAttributes = re.sub('\[|\]|\'', '', str(sampleDataPoint))
 		
 		# Message to user and sample data point
-		print("\nThank you.\nBelow is a sample data point.\nPlease enter the attribute names and associated data types in the order they appear in the sample.\nPlease follow this format: <attributeName1>:<dataType1>, <attributeName2>:<dataType2>, ...etc\n<dataType> can be one of NUMERIC, STRING, DATE, or a nominal value.\nIf an attribute has a nominal type, format <dataType> as {nominalValue1, nominalValue2,...,nominalValueN}\n")
+		print("\nThank you.\nBelow is a sample data point.")
+		print("Please enter the attribute names and associated data types in the order they appear in the sample.")
+		print("---------------------------------------------------------------------------------------------------")
+		print("Follow this format: <attributeName1>:<dataType1>, <attributeName2>:<dataType2>, ...etc\n<dataType> can be one of NUMERIC, STRING, DATE, or a nominal type.\nIf an attribute has a nominal type, format <dataType> as {nominalValue1, nominalValue2,...,nominalValueN}\n")
 		print("Here is the sample data point of the class", sampleClass + ".")
+		print("Enter the attributes in the order they appear in the sample.")
 		print(sampleAttributes)
 		
 		# return user input as a list of tuples
@@ -54,11 +58,15 @@ def getAttributes(classes):
 		return [attrTuple.strip().split(':') for attrTuple in userInput.split(',')]
 		
 
-# Prompts the user for the data classes
+# Prompts the user for the data classes. Verifies the uses inputs a comma separated list
 # Returns a list of the class names
 def getClasses():
-	print("Please enter the class names separated by commas:")
+	print("Please enter the class names (case-sensitive) from the data separated by commas:")
 	classes = input()
+	while len(classes) is 0 or not re.search(',', classes):
+		print("Please enter the class names (case-sensitive) from the data separated by commas:")
+		classes = input()
+		
 	classes = classes.split(',')
 	classes = [c.strip() for c in classes]
 	return classes
@@ -66,11 +74,11 @@ def getClasses():
 # Given the classes and attributes (with datatypes)
 # Create and format an .arff file in the current directory
 def createARFF(classes, attributes):
-	global dataFile, classColumnIndex
-	
+	global dataFile
 	fileName = re.search('(\w)+\..', dataFile).group(0).split('.')[0]
 	outputString = ""
 	
+	# write @RELATION, @ATTRIBUTE, and @DATA tags specified by ARFF format
 	with open(dataFile, "r") as file:
 		outputString += "@RELATION " + fileName + "\n"
 		for  attr in attributes:
@@ -85,13 +93,10 @@ def createARFF(classes, attributes):
 		outputString += "}\n"
 		outputString += formatData() + "\n%\n%\n%\n"
 		
-	#create the ARFF file
+	#create the ARFF file and write ouputString into the file
 	arffFile = fileName + ".arff"
 	with open(arffFile, "w") as newFile:
 		newFile.write(outputString)
-	
-	# print("\n\nOUTPUT")
-	# print (outputString)
 
 # TODO
 ###### NOTE: The data needs to be comma-separated with no spaces. So that needs to be checked before returning the data. If it is space-separated, then convert it to commas.
