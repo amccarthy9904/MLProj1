@@ -122,31 +122,8 @@ def createARFF(classes, attributes):
 	with open(arffFile, "w") as newFile:
 		newFile.write(outputString)
 
-# TODO
-###### NOTE: The data needs to be comma-separated with no spaces. So that needs to be checked before returning the data. If it is space-separated, then convert it to commas.
 # Given the classes and attributes
 # Format the @DATA section and return it as a string
-def formatData():
-	global dataFile	
-	# write @RELATION, @ATTRIBUTE, and @DATA tags specified by ARFF format
-	with open(dataFile, "r") as file:
-		outputString += "@RELATION " + fileName + "\n"
-		for  attr in attributes:
-			outputString += "\n@ATTRIBUTE " + attr[0].replace(' ', '') + ' ' + attr[1].replace(' ','').replace('&',',')
-		
-		outputString += "\n@ATTRIBUTE class {"
-		for c in classes:
-			outputString += c
-			if classes.index(c) is not len(classes)-1:
-				outputString += ','
-		
-		outputString += "}\n"
-		outputString += formatData(len(attributes))
-		
-	#create the ARFF file and write ouputString into the file
-	arffFile = fileName + ".arff"
-	with open(arffFile, "w") as newFile:
-		newFile.write(outputString)
 
 def formatData(numAttributes):
 	global dataFile
