@@ -14,9 +14,6 @@ import os
 # Returns a list of 2-tuples, each corresonding to an attribute name and datatype pair
 def getAttributes(classes):
 	global dataFile, classColumnIndex
-	# Iris-setosa, Iris-versicolor, Iris-virginica 
-	# sepal length:NUMERIC, sepal width:NUMERIC, petal length:NUMERIC, petal width:NUMERIC
-	
 	with open(dataFile, 'r') as file:
 		# Get the first data point as a list of strings
 		firstLine = file.readline().strip()
@@ -73,7 +70,6 @@ def getAttributes(classes):
 				inputIsValid = True
 		
 		return [attrTuple.strip().split(':') for attrTuple in userInput.split(',')]
-		
 
 # Prompts the user for the data classes. Verifies the uses inputs a comma separated list
 # Returns a list of the class names
@@ -114,7 +110,7 @@ def createARFF(classes, attributes):
 			if classes.index(c) is not len(classes)-1:
 				outputString += ','
 		
-		outputString += formatData(len(attributes))
+		outputString += '}\n' + formatData(len(attributes))
 		
 	#create the ARFF file and write ouputString into the file
 	arffFile = fileName + ".arff"
@@ -123,7 +119,6 @@ def createARFF(classes, attributes):
 
 # Given the classes and attributes
 # Format the @DATA section and return it as a string
-
 def formatData(numAttributes):
 	global dataFile
 	with open(dataFile, 'r') as file:
@@ -151,7 +146,6 @@ def formatData(numAttributes):
 			data = data + line
 		data = data + "\n%\n%\n%\n"
 		return data
-
 
 # Entry point of the program
 # Calls methods to collect classes and attributes, then sends that information to createARFF
