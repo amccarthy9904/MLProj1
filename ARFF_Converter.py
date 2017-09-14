@@ -114,8 +114,7 @@ def createARFF(classes, attributes):
 			if classes.index(c) is not len(classes)-1:
 				outputString += ','
 		
-		outputString += "}\n"
-		outputString += formatData() + "\n%\n%\n%\n"
+		outputString += formatData(len(attributes))
 		
 	#create the ARFF file and write ouputString into the file
 	arffFile = fileName + ".arff"
@@ -138,6 +137,8 @@ def formatData(numAttributes):
 		#make header
 		data = "\n@DATA\n"
 		lines = file.readlines()
+		lines[0] = lines[0].lstrip()
+		lines[len(lines) - 1] = lines[len(lines) - 1].rstrip()
 
 		# check if the file is space delimited with range to account for class names with spaces
 		# replace spaces with commas
