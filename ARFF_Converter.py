@@ -131,8 +131,8 @@ def formatData(numAttributes):
 
 		#check for correct file extension
 		# continue with warning if file extension wrong
-		if not re.search("\.txt|\.data|\.csv", dataFile):
-			print("File format not supported\nFile must be .txt, .data, or .csv")
+		if not re.search("\.txt|\.data|\.csv|\.dat", dataFile):
+			print("File format not supported\nFile must be .txt, .data, .dat, or .csv")
 			print("Data transfer continuing...\nResults may be unreliable")
 
 		#make header
