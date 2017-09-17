@@ -117,7 +117,7 @@ def createARFF(classes, attributes):
 				if classes.index(c) is not len(classes)-1:
 					outputString += ','
 			
-			outputString += '}\n' + formatData(len(attributes))
+			outputString += '}\n'
 		else:
 			outputString += "\n@ATTRIBUTE " + classes[0] + " " + classes[1] + "\n"
 			
