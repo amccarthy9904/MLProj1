@@ -74,17 +74,22 @@ def getAttributes(classes):
 # Prompts the user for the data classes. Verifies the uses inputs a comma separated list
 # Returns a list of the class names
 def getClasses():
-	classRegex = '(^(([\w -])+,)+([\w -])+$)|(^(\w-)+$)'
+	classRegex = '((^(([\w -])+,)+([\w -])+$)|(^(\w-)+$))|(^(\w-)+$),( )?NUMERIC|(^(\w-)+$),( )?STRING|(^(\w-)+$),( )?DATE'
 	classes = ""
 	inputIsValid = False
 	while not inputIsValid:
-		print("Please enter the exact class names from the data (case sensitive) separated by commas:")
+		print("\nPlease enter the exact class names from the data (case sensitive) separated by commas.")
+		print("Use the format specified below depending upon the class type:\n")
+		print("Class is Nominal: <class1>, <class2>,...etc")
+		print("Continuous Number: <classLabel>, NUMERIC")
+		print("A Calendar Date: <classLabel>, DATE")
+		print("A Unique String: <classLabel>, STRING\n")
 		classes = input('> ')
 		classes = classes.strip()
 		if len(classes) is 0:
 			print("Error: You must enter at least 1 class name.\n")
 		elif not re.match(classRegex, classes):
-			print("Error: Class names must be separated by commas.\n")
+			print("Error: Class names must follow the specified format.\n")
 		else:
 			inputIsValid = True
 		
@@ -104,14 +109,21 @@ def createARFF(classes, attributes):
 		for  attr in attributes:
 			outputString += "\n@ATTRIBUTE " + attr[0].replace(' ', '') + ' ' + attr[1].replace(' ','').replace('&',',')
 		
-		outputString += "\n@ATTRIBUTE class {"
-		for c in classes:
-			outputString += c
-			if classes.index(c) is not len(classes)-1:
-				outputString += ','
-		
-		outputString += '}\n' + formatData(len(attributes))
-		
+		# if class is a nominal value
+		if(not re.match('NUMERIC|STRING|DATE', classes[1])):
+			outputString += "\n@ATTRIBUTE class {"
+			for c in classes:
+				outputString += c
+				if classes.index(c) is not len(classes)-1:
+					outputString += ','
+			
+			outputString += '}\n' + formatData(len(attributes))
+		else:
+			outputString += "\n@ATTRIBUTE " + classes[0] + " " + classes[1] + "\n"
+			
+		outputString += formatData(len(attributes))
+
+			
 	#create the ARFF file and write ouputString into the file
 	arffFile = fileName + ".arff"
 	with open(arffFile, "w") as newFile:
