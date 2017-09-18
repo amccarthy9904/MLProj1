@@ -16,6 +16,11 @@ We are building this so we can test some of WEKA's Machine Learning algorithms o
 - Format it as specified by the script.
 - If succesful, the script will end and a new ARFF file will be created in the current directory.
 
+
+Here is sample run of the script using the Iris Dataset:
+
+![A sample run using the Iris dataset](/SampleRun.png?raw=true "A sample run using the Iris dataset")
+
 ## The 5 Datasets
 - [Iris Dataset](http://archive.ics.uci.edu/ml/datasets/Iris)
 - [Hayes-Roth](https://archive.ics.uci.edu/ml/datasets/Hayes-Roth)
