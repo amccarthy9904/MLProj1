@@ -8,7 +8,6 @@ Created on Tue Sep  5 20:13:53 2017
 """
 import sys
 import re
-import os
 
 # Prompts the user for the attributes and associated data types
 # Returns a list of 2-tuples, each corresonding to an attribute name and datatype pair
