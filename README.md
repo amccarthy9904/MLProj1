@@ -9,7 +9,7 @@ We are building this so we can test some of WEKA's Machine Learning algorithms o
 
 ## How to Use
 - Open a terminal to the location of the script.
-- Run the command: python ARFF_Converter.py <path-to-dataset>
+- Run the command: python ARFF_Converter.py \<path-to-dataset\>
 - Enter the classes according to the specified format.
 - The script will show a sample datapoint (probably a bunch of numbers)
 - Enter the names and datatypes of each attribute in the sample datapoint.
